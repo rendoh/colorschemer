@@ -17,13 +17,16 @@ class ImageColorizer:
 
     def get_colors(self):
         if not self.__colors:
-            self.__colors = self.__cluster.cluster_centers_.astype(
-                int, copy=False)
+            colors = self.__cluster.cluster_centers_.astype(
+                int,
+                copy=False
+            )
+            self.__colors = map(lambda rgb: tuple(rgb), colors)
         return self.__colors
 
     def get_hexes(self):
         if not self.__hexes:
             self.__hexes = list(
-                map(lambda rgb: '#%02x%02x%02x' % tuple(rgb), self.__colors)
+                map(lambda rgb: '#%02x%02x%02x' % rgb, self.get_hexes())
             )
         return self.__hexes
